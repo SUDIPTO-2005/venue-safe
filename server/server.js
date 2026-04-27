@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const path = require('path');
 const db = require('./database');
 const { analyzeIncident, translateAndTriageGuestMessage, detectPatterns } = require('./ai');
 
@@ -26,7 +27,7 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "*", // Allow all origins for easier deployment, restrict in real production
     methods: ["GET", "POST", "PATCH"]
   }
 });
@@ -380,7 +381,15 @@ app.post('/api/sms-webhook', async (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+// Serve static frontend in production
+const frontendDistPath = path.join(__dirname, '../dist');
+app.use(express.static(frontendDistPath));
+
+app.use((req, res) => {
+  res.sendFile(path.join(frontendDistPath, 'index.html'));
+});
+
+const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

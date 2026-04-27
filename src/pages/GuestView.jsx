@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, CheckCircle, AlertOctagon, Smartphone, MapPin, Bell, LayoutDashboard, AlertTriangle, Users, Search, Target } from 'lucide-react';
+import { Shield, CheckCircle, AlertOctagon, Smartphone, MapPin, Bell, LayoutDashboard, AlertTriangle, Users, Search, Target, Moon, Sun } from 'lucide-react';
 import { socket } from '../socket';
+import VenueSafeLogo from '../components/VenueSafeLogo';
+import { useTheme } from '../hooks/useTheme';
 
 export default function GuestView() {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [status, setStatus] = useState(null); // 'safe' or 'trapped'
   const [submitted, setSubmitted] = useState(false);
   const [zone, setZone] = useState('');
@@ -57,25 +60,19 @@ export default function GuestView() {
   if (submitted) {
     return (
       <div className="command-center" style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-        <nav className="nav-tabs" style={{ justifyContent: 'flex-start', padding: '1rem', background: 'var(--bg-panel)', borderBottom: '1px solid var(--border-subtle)', marginBottom: '0' }}>
-          <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
-          <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
-          <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
-          <button className="nav-tab active" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
-          <button className="nav-tab" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
-        </nav>
-
-        <header className="top-header" style={{ marginBottom: '1.5rem' }}>
-          <div className="brand-section">
-            <div className="brand-icon-box" style={{ background: 'rgba(0, 240, 255, 0.15)', borderColor: 'rgba(0, 240, 255, 0.5)', color: 'var(--accent-cyan)', boxShadow: 'var(--glow-cyan)' }}>
-              <Smartphone size={28} />
-            </div>
-            <div>
-              <h1 className="brand-title" style={{ color: 'var(--accent-cyan)', textShadow: 'var(--glow-cyan)' }}>GUEST PORTAL</h1>
-              <div className="brand-subtitle" style={{ color: '#fff', textShadow: 'none' }}>EMERGENCY MUSTER SYSTEM</div>
-            </div>
+        <nav className="nav-tabs" style={{ justifyContent: 'flex-start', alignItems: 'center', padding: '0.5rem 1rem', gap: '0.5rem', marginBottom: '0' }}>
+          <VenueSafeLogo width={260} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }}>
+            <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
+            <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
+            <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
+            <button className="nav-tab active" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
+            <button className="nav-tab" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
+            <button className="theme-toggle" onClick={toggleTheme} title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
           </div>
-        </header>
+        </nav>
 
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <div style={{ 
@@ -117,25 +114,19 @@ export default function GuestView() {
 
   return (
     <div className="command-center" style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
-      <nav className="nav-tabs" style={{ justifyContent: 'flex-start', padding: '1rem', background: 'var(--bg-panel)', borderBottom: '1px solid var(--border-subtle)', marginBottom: '0', flexShrink: 0 }}>
-        <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
-        <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
-        <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
-        <button className="nav-tab active" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
-        <button className="nav-tab" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
-      </nav>
-
-      <header className="top-header" style={{ marginBottom: '1.5rem', flexShrink: 0 }}>
-        <div className="brand-section">
-          <div className="brand-icon-box" style={{ background: 'rgba(0, 240, 255, 0.15)', borderColor: 'rgba(0, 240, 255, 0.5)', color: 'var(--accent-cyan)', boxShadow: 'var(--glow-cyan)' }}>
-            <Smartphone size={28} />
-          </div>
-          <div>
-            <h1 className="brand-title" style={{ color: 'var(--accent-cyan)', textShadow: 'var(--glow-cyan)' }}>GUEST PORTAL</h1>
-            <div className="brand-subtitle" style={{ color: '#fff', textShadow: 'none' }}>EMERGENCY MUSTER SYSTEM</div>
-          </div>
+      <nav className="nav-tabs" style={{ justifyContent: 'flex-start', alignItems: 'center', padding: '0.5rem 1rem', gap: '0.5rem', marginBottom: '0', flexShrink: 0 }}>
+        <VenueSafeLogo width={260} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }}>
+          <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
+          <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
+          <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
+          <button className="nav-tab active" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
+          <button className="nav-tab" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
+          <button className="theme-toggle" onClick={toggleTheme} title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
         </div>
-      </header>
+      </nav>
 
       <div style={{ maxWidth: '600px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', flex: 1, paddingBottom: '2rem' }}>
 

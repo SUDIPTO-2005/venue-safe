@@ -34,6 +34,90 @@
   --glow-green: 0 0 15px rgba(0, 255, 102, 0.4);
 }
 
+/* Light Mode Theme */
+[data-theme="light"] {
+  --bg-base: #f0f2f5;
+  --bg-panel: #ffffff;
+  --bg-panel-hover: #f8f9fa;
+  
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a5568;
+  --text-muted: #a0aec0;
+  
+  --accent-cyan: #0891b2;
+  --accent-red: #dc2626;
+  --accent-yellow: #d97706;
+  --accent-green: #16a34a;
+  --accent-purple: #9333ea;
+  
+  --border-subtle: #e2e8f0;
+  --border-focus: #cbd5e1;
+  
+  --glow-cyan: 0 2px 8px rgba(8, 145, 178, 0.2);
+  --glow-red: 0 2px 8px rgba(220, 38, 38, 0.2);
+  --glow-yellow: 0 2px 8px rgba(217, 119, 6, 0.2);
+  --glow-green: 0 2px 8px rgba(22, 163, 74, 0.2);
+}
+
+[data-theme="light"] .blueprint-map {
+  background-image:
+    linear-gradient(rgba(8, 145, 178, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 145, 178, 0.08) 1px, transparent 1px);
+  box-shadow: inset 0 0 30px rgba(8, 145, 178, 0.03);
+}
+
+[data-theme="light"] .map-zone {
+  border-color: rgba(8, 145, 178, 0.3);
+  background: rgba(8, 145, 178, 0.04);
+}
+
+[data-theme="light"] .incident-row {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="light"] .triage-input {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .category-btn {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .btn-lockdown {
+  animation: none;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+[data-theme="light"] .theme-toggle {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -564,6 +648,14 @@ button {
   animation: radar 1.5s infinite ease-out;
 }
 
+.responder-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px 350px;
+  gap: 1.5rem;
+  flex: 1;
+  min-height: 0;
+}
+
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -591,6 +683,11 @@ button {
 
 /* Responsive Design */
 @media (max-width: 992px) {
+  .responder-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow-y: auto;
+  }
   .metrics-row {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -612,33 +709,90 @@ button {
 @media (max-width: 768px) {
   .top-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 1rem;
   }
   .system-status {
     width: 100%;
     justify-content: space-between;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
   .nav-tabs {
     flex-direction: column;
     width: 100%;
+    padding: 0.5rem !important;
+  }
+  .nav-tabs > div {
+    margin-left: 0 !important;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
   }
   .nav-tab {
+    flex: 1 1 calc(50% - 0.5rem);
     justify-content: center;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+  .theme-toggle {
+    margin: 0.5rem auto;
   }
   .metrics-row {
     grid-template-columns: 1fr;
   }
+  .metric-card {
+    padding: 1rem;
+  }
+  .metric-value {
+    font-size: 2.2rem;
+  }
   .blueprint-map {
-    height: 400px;
-    overflow-x: auto;
-    overflow-y: hidden;
+    height: 350px;
+    overflow: hidden;
   }
   .map-zone {
-    /* Scale down zones for mobile map view */
-    transform: scale(0.8);
-    transform-origin: center;
+    transform: scale(0.65);
+    transform-origin: top left;
+  }
+  .triage-categories {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .category-btn {
+    flex: 1 1 45%;
+    min-width: 0;
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+  .panel {
+    padding: 1rem;
+  }
+  .panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .command-center {
+    padding: 0.5rem;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-tab {
+    flex: 1 1 100%;
   }
   .triage-categories {
     flex-direction: column;
   }
+  .category-btn {
+    flex: 1 1 100%;
+  }
+  .system-status {
+    flex-direction: column;
+    align-items: center;
+  }
 }
+

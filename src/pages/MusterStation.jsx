@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Scan, CheckCircle, ShieldAlert, LayoutDashboard, AlertTriangle, Users, Search, Target } from 'lucide-react';
+import { Scan, CheckCircle, ShieldAlert, LayoutDashboard, AlertTriangle, Users, Search, Target, Moon, Sun } from 'lucide-react';
+import VenueSafeLogo from '../components/VenueSafeLogo';
+import { useTheme } from '../hooks/useTheme';
 
 export default function MusterStation() {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [selectedZone, setSelectedZone] = useState('LOBBY ZONE A');
   const [guestName, setGuestName] = useState('');
   const [isInjured, setIsInjured] = useState(false);
@@ -46,25 +49,29 @@ export default function MusterStation() {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#0f172a', color: '#fff' }}>
-      <nav className="nav-tabs" style={{ justifyContent: 'flex-start', padding: '1rem', background: 'var(--bg-panel)', borderBottom: '1px solid var(--border-subtle)' }}>
-        <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
-        <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
-        <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
-        <button className="nav-tab" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
-        <button className="nav-tab active" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
+      <nav className="nav-tabs" style={{ justifyContent: 'flex-start', alignItems: 'center', padding: '0.5rem 1rem', gap: '0.5rem' }}>
+        <VenueSafeLogo width={260} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }}>
+          <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
+          <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
+          <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
+          <button className="nav-tab" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
+          <button className="nav-tab active" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
+          <button className="theme-toggle" onClick={toggleTheme} title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: '1rem', borderLeft: '1px solid var(--border-subtle)', paddingLeft: '1rem' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>Zone:</span>
+          <select 
+            value={selectedZone}
+            onChange={(e) => setSelectedZone(e.target.value)}
+            style={{ background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid var(--border-subtle)', padding: '0.35rem', borderRadius: '4px', fontSize: '0.85rem' }}
+          >
+            {Object.keys(zoneToQR).map(z => <option key={z} value={z}>{z}</option>)}
+          </select>
+        </div>
       </nav>
-      <header style={{ background: 'var(--bg-panel)', padding: '1.5rem', borderBottom: '1px solid var(--border-subtle)', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', margin: 0, color: 'var(--accent-cyan)', textShadow: 'var(--glow-cyan)' }}>
-          MUSTER STATION KIOSK
-        </h1>
-        <select 
-          value={selectedZone}
-          onChange={(e) => setSelectedZone(e.target.value)}
-          style={{ background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid var(--border-subtle)', padding: '0.5rem', marginTop: '1rem', borderRadius: '4px', fontSize: '1.1rem' }}
-        >
-          {Object.keys(zoneToQR).map(z => <option key={z} value={z}>{z}</option>)}
-        </select>
-      </header>
 
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
         {scanned ? (

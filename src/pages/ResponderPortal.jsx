@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, AlertTriangle, Crosshair, Users, Activity, Radio, LayoutDashboard, Search, Target } from 'lucide-react';
+import { Shield, AlertTriangle, Crosshair, Users, Activity, Radio, LayoutDashboard, Search, Target, Moon, Sun } from 'lucide-react';
 import { socket } from '../socket';
+import VenueSafeLogo from '../components/VenueSafeLogo';
+import { useTheme } from '../hooks/useTheme';
 
 // Re-using same zones
 const ZONES = [
@@ -16,6 +18,7 @@ const ZONES = [
 
 export default function ResponderPortal() {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [incidents, setIncidents] = useState([]);
   const [guests, setGuests] = useState([]);
   const [musterPoints, setMusterPoints] = useState([]);
@@ -110,26 +113,23 @@ export default function ResponderPortal() {
 
   return (
     <div className="command-center" style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <nav className="nav-tabs" style={{ justifyContent: 'flex-start', padding: '1rem', background: 'var(--bg-panel)', borderBottom: '1px solid var(--border-subtle)', marginBottom: '0' }}>
-        <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
-        <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
-        <button className="nav-tab active" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
-        <button className="nav-tab" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
-        <button className="nav-tab" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
+      <nav className="nav-tabs" style={{ justifyContent: 'flex-start', alignItems: 'center', padding: '0.5rem 1rem', gap: '0.5rem', marginBottom: '0' }}>
+        <VenueSafeLogo width={260} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }}>
+          <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
+          <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
+          <button className="nav-tab active" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
+          <button className="nav-tab" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
+          <button className="nav-tab" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
+          <button className="theme-toggle" onClick={toggleTheme} title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+        </div>
       </nav>
 
       <header className="top-header" style={{ marginBottom: '0' }}>
-        <div className="brand-section">
-          <div className="brand-icon-box" style={{ background: 'rgba(0, 240, 255, 0.15)', borderColor: 'rgba(0, 240, 255, 0.5)', color: 'var(--accent-cyan)', boxShadow: 'var(--glow-cyan)' }}>
-            <Crosshair size={28} />
-          </div>
-          <div>
-            <h1 className="brand-title" style={{ color: 'var(--accent-cyan)', textShadow: 'var(--glow-cyan)' }}>911 RESPONDER VIEW</h1>
-            <div className="brand-subtitle" style={{ color: '#fff', textShadow: 'none' }}>TACTICAL DISPATCH OVERRIDE</div>
-          </div>
-        </div>
-        <div className="system-status" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: safetyAlert ? 'rgba(255,0,60,0.2)' : 'rgba(255,255,255,0.05)', border: `1px solid ${safetyAlert ? 'var(--accent-red)' : 'rgba(255,255,255,0.1)'}`, padding: '0.5rem 1rem', borderRadius: '8px' }}>
+        <div className="system-status" style={{ width: '100%', justifyContent: 'flex-end', display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: safetyAlert ? 'rgba(255,0,60,0.2)' : 'rgba(255,255,255,0.05)', border: `1px solid ${safetyAlert ? 'var(--accent-red)' : 'rgba(255,255,255,0.1)'}`, padding: '0.5rem 1rem', borderRadius: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
               <select 
                 value={currentZone} 
@@ -158,7 +158,7 @@ export default function ResponderPortal() {
             </button>
           </div>
 
-          <div style={{ display: 'flex', gap: '2rem' }}>
+          <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--accent-red)', textShadow: 'var(--glow-red)', fontWeight: 'bold', lineHeight: 1 }}>{trappedGuests.length}</div>
               <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '0.25rem' }}>Trapped</div>
@@ -171,7 +171,7 @@ export default function ResponderPortal() {
         </div>
       </header>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px 350px', gap: '1.5rem', flex: 1, minHeight: 0 }}>
+      <div className="responder-grid">
         {/* Tactical Map */}
         <div className="panel map-panel" style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '1rem' }}>
           <div className="panel-header" style={{ marginBottom: '1rem' }}>
