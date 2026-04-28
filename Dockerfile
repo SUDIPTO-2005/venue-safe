@@ -4,11 +4,15 @@ FROM node:20-slim
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
+# Copy root package files
 COPY package*.json ./
 
-# Install all dependencies (including dev dependencies needed for Vite build)
+# Install root dependencies (including dev dependencies needed for Vite build)
 RUN npm install
+
+# Copy server package files and install server dependencies
+COPY server/package*.json ./server/
+RUN cd server && npm install
 
 # Copy the rest of the application code
 COPY . .
@@ -16,8 +20,9 @@ COPY . .
 # Build the Vite React frontend
 RUN npm run build
 
-# Expose the port the app runs on (Cloud Run provides PORT environment variable, defaults to 8080)
+# Set environment variables for Cloud Run
 ENV PORT=8080
+ENV GEMINI_API_KEY=AIzaSyDJiyiH-tUMi2wdxQRrMT5QF4mR-y4FsvU
 EXPOSE 8080
 
 # Command to run the application (starts the Express server)
