@@ -48,28 +48,18 @@ export default function MusterStation() {
   };
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#0f172a', color: '#fff' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', background: '#0f172a', color: '#fff', minHeight: '100vh' }}>
       <nav className="nav-tabs" style={{ justifyContent: 'flex-start', alignItems: 'center', padding: '0.5rem 1rem', gap: '0.5rem' }}>
         <VenueSafeLogo width={260} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }}>
-          <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
-          <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
-          <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
-          <button className="nav-tab" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
-          <button className="nav-tab active" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
+        <div className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+          <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={14} /><span>Dashboard</span></button>
+          <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={14} /><span>Report</span></button>
+          <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={14} /><span>Responders</span></button>
+          <button className="nav-tab" onClick={() => navigate('/guest')}><Search size={14} /><span>Guest</span></button>
+          <button className="nav-tab active" onClick={() => navigate('/muster')}><Target size={14} /><span>Muster</span></button>
           <button className="theme-toggle" onClick={toggleTheme} title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: '1rem', borderLeft: '1px solid var(--border-subtle)', paddingLeft: '1rem' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>Zone:</span>
-          <select 
-            value={selectedZone}
-            onChange={(e) => setSelectedZone(e.target.value)}
-            style={{ background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid var(--border-subtle)', padding: '0.35rem', borderRadius: '4px', fontSize: '0.85rem' }}
-          >
-            {Object.keys(zoneToQR).map(z => <option key={z} value={z}>{z}</option>)}
-          </select>
         </div>
       </nav>
 
@@ -94,8 +84,19 @@ export default function MusterStation() {
               onChange={(e) => setGuestName(e.target.value)}
               placeholder="Guest Name (e.g., John Doe)"
               required
-              style={{ width: '100%', padding: '1rem', marginBottom: '1.5rem', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-subtle)', borderRadius: '4px', color: '#fff', fontSize: '1.2rem', textAlign: 'center' }}
+              style={{ width: '100%', padding: '1rem', marginBottom: '1rem', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-subtle)', borderRadius: '4px', color: '#fff', fontSize: '1.2rem', textAlign: 'center' }}
             />
+
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.4rem' }}>Zone</label>
+              <select
+                value={selectedZone}
+                onChange={(e) => setSelectedZone(e.target.value)}
+                style={{ width: '100%', padding: '0.75rem', background: 'rgba(255,255,255,0.07)', color: '#fff', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '0.95rem' }}
+              >
+                {Object.keys(zoneToQR).map(z => <option key={z} value={z}>{z}</option>)}
+              </select>
+            </div>
 
             <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
               <label style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: isInjured ? 'rgba(255,0,60,0.2)' : 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '4px', border: `1px solid ${isInjured ? 'var(--accent-red)' : 'var(--border-subtle)'}`, cursor: 'pointer' }}>

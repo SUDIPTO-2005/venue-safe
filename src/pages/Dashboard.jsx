@@ -214,19 +214,19 @@ export default function Dashboard() {
       {/* Navigation Bar with Logo */}
       <nav className="nav-tabs" style={{ justifyContent: 'flex-start', alignItems: 'center', padding: '0.5rem 1rem', gap: '0.5rem' }}>
         <VenueSafeLogo width={260} />
-        <div className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }}>
-          <button className="nav-tab active" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
+        <div className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+          <button className="nav-tab active" onClick={() => navigate('/')}><LayoutDashboard size={14} /><span>Dashboard</span></button>
           <button className="nav-tab" onClick={() => triageRef.current?.scrollIntoView({ behavior: 'smooth' })}>
-            <AlertTriangle size={16} /> Report Incident
+            <AlertTriangle size={14} /><span>Report</span>
           </button>
           <button className="nav-tab" onClick={() => navigate('/responder')}>
-            <Users size={16} /> Responders
+            <Users size={14} /><span>Responders</span>
           </button>
           <button className="nav-tab" onClick={() => navigate('/guest')}>
-            <Search size={16} /> Guest Portal
+            <Search size={14} /><span>Guest</span>
           </button>
           <button className="nav-tab" onClick={() => navigate('/muster')}>
-            <Target size={16} /> Muster Station
+            <Target size={14} /><span>Muster</span>
           </button>
           <button className="theme-toggle" onClick={toggleTheme} title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
