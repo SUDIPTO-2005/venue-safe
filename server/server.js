@@ -1,3 +1,14 @@
+// ─── Global Error Handlers (logs crash reason to Cloud Run logs) ─────────────
+process.on('uncaughtException', (err) => {
+  console.error('[FATAL] Uncaught Exception:', err);
+  process.exit(1);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('[FATAL] Unhandled Rejection:', reason);
+  process.exit(1);
+});
+// ─────────────────────────────────────────────────────────────────────────────
+
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
