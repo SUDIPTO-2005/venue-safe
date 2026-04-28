@@ -12,7 +12,7 @@ RUN npm install
 
 # Copy server package files and install server dependencies
 COPY server/package*.json ./server/
-RUN cd server && npm install --omit=dev
+RUN cd server && npm install --omit=dev --build-from-source=sqlite3
 
 # Copy the rest of the application code
 COPY . .
