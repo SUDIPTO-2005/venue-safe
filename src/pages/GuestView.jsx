@@ -62,12 +62,12 @@ export default function GuestView() {
       <div className="command-center" style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
         <nav className="nav-tabs" style={{ justifyContent: 'flex-start', alignItems: 'center', padding: '0.5rem 1rem', gap: '0.5rem', marginBottom: '0' }}>
           <VenueSafeLogo width={260} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }}>
-            <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
-            <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
-            <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
-            <button className="nav-tab active" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
-            <button className="nav-tab" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
+          <div className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+            <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={14} /><span>Dashboard</span></button>
+            <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={14} /><span>Report</span></button>
+            <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={14} /><span>Responders</span></button>
+            <button className="nav-tab active" onClick={() => navigate('/guest')}><Search size={14} /><span>Guest</span></button>
+            <button className="nav-tab" onClick={() => navigate('/muster')}><Target size={14} /><span>Muster</span></button>
             <button className="theme-toggle" onClick={toggleTheme} title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
@@ -113,15 +113,15 @@ export default function GuestView() {
   }
 
   return (
-    <div className="command-center" style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+    <div className="command-center" style={{ overflowY: 'auto' }}>
       <nav className="nav-tabs" style={{ justifyContent: 'flex-start', alignItems: 'center', padding: '0.5rem 1rem', gap: '0.5rem', marginBottom: '0', flexShrink: 0 }}>
         <VenueSafeLogo width={260} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }}>
-          <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={16} /> Dashboard</button>
-          <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={16} /> Report Incident</button>
-          <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={16} /> Responders</button>
-          <button className="nav-tab active" onClick={() => navigate('/guest')}><Search size={16} /> Guest Portal</button>
-          <button className="nav-tab" onClick={() => navigate('/muster')}><Target size={16} /> Muster Station</button>
+        <div className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+          <button className="nav-tab" onClick={() => navigate('/')}><LayoutDashboard size={14} /><span>Dashboard</span></button>
+          <button className="nav-tab" onClick={() => navigate('/')}><AlertTriangle size={14} /><span>Report</span></button>
+          <button className="nav-tab" onClick={() => navigate('/responder')}><Users size={14} /><span>Responders</span></button>
+          <button className="nav-tab active" onClick={() => navigate('/guest')}><Search size={14} /><span>Guest</span></button>
+          <button className="nav-tab" onClick={() => navigate('/muster')}><Target size={14} /><span>Muster</span></button>
           <button className="theme-toggle" onClick={toggleTheme} title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
